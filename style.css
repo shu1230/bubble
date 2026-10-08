@@ -1,0 +1,838 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    overflow: hidden;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 440px;
+    height: 100dvh;
+    margin: 0 auto;
+    position: relative;
+    background-color: #000;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.screen {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    flex-direction: column;
+    z-index: 1;
+}
+
+.screen.active {
+    display: flex;
+}
+
+/* SCREEN 1: HOME */
+#screen-home {
+    background: url('bg.png') no-repeat center center;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+}
+
+.profile-backdrop-gradient {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 55%;
+    background: linear-gradient(to top, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0) 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.profile-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0 20px;
+    margin-bottom: clamp(28px, 6vh, 50px);
+}
+
+.profile-avatar-wrapper {
+    width: clamp(86px, 19vw, 106px);
+    height: clamp(86px, 19vw, 106px);
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 16px;
+    flex-shrink: 0;
+}
+
+.profile-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 80px;
+}
+
+/* 아티스트 뱃지 */
+.artist-badge {
+    background: linear-gradient(135deg, #ffcbe5 0%, #ffa4d1 100%);
+    color: #FFFFFF;
+    font-size: 8.5px;
+    font-weight: 800;
+    padding: 1px 5px;
+    border-radius: 999px;
+    letter-spacing: 0px;
+    line-height: 1.4;
+}
+
+.profile-name {
+    color: #FFFFFF;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: -0.1px;
+}
+
+.home-bottom-bar {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    background-color: #FFFFFF;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
+}
+
+.btn-chat-start {
+    width: 100%;
+    height: 40px;
+    border: none;
+    background-color: transparent;
+    font-size: 16px;
+    font-weight: 380;
+    color: #000000;
+    cursor: pointer;
+    text-align: center;
+}
+
+/* SCREEN 2: CHAT */
+#screen-chat {
+    background: url('chatbg.png') no-repeat center center;
+    background-size: cover;
+}
+
+.app-header {
+    background-color: #FFF;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    box-shadow: 0 4px 16px rgba(52, 51, 51, 0.15);
+    padding: calc(10px + env(safe-area-inset-top)) 16px 12px 16px;
+    position: relative;
+    z-index: 10;
+    flex-shrink: 0;
+}
+
+.normal-header {
+    display: flex;
+    flex-direction: column;
+}
+
+.search-header {
+    display: none !important;
+}
+
+body.search-mode .normal-header {
+    display: none !important;
+}
+
+body.search-mode .search-header {
+    display: flex !important;
+    flex-direction: column;
+}
+
+.header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative; /* 제목 중앙 정렬의 기준점 설정 */
+    min-height: 50px;
+}
+
+.header-title-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%); /* 정확한 가로 중앙 정렬 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    pointer-events: none; /* 뒤쪽 클릭 간섭 방지 */
+}
+
+.header-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #000;
+}
+
+.header-sub {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #000;
+    margin-top: 14px;
+}
+
+.heart-icon {
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+    display: inline-block;
+}
+
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    15% { transform: scale(1.18); }
+    30% { transform: scale(0.98); }
+    45% { transform: scale(1.12); }
+    60% { transform: scale(1); }
+    100% { transform: scale(1); }
+}
+
+.heartbeat {
+    animation: heartbeat 1.6s infinite ease-in-out;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+}
+
+.menu-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 16px;
+    background: #FFF;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    width: 120px;
+    overflow: hidden;
+    z-index: 100;
+}
+
+.menu-dropdown.hidden {
+    display: none;
+}
+
+.menu-item {
+    width: 100%;
+    padding: 12px 16px;
+    border: none;
+    background: none;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    cursor: pointer;
+}
+
+/* Search Header */
+.search-top {
+    gap: 8px;
+}
+
+.search-input-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background-color: #F2F2F7;
+    border-radius: 10px;
+    padding: 6px 10px;
+}
+
+.search-icon-inside {
+    margin-right: 6px;
+}
+
+.search-input-wrapper input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-size: 15px;
+    outline: none;
+    color: #000;
+}
+
+.text-btn {
+    border: none;
+    background: transparent;
+    font-size: 15px;
+    color: #000;
+    cursor: pointer;
+    padding: 4px;
+    white-space: nowrap;
+}
+
+.search-sub-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    font-size: 11px;
+    color: #000;
+    margin-top: 8px;
+}
+
+/* Chat Messages */
+.chat-messages-container {
+    flex: 1;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+    padding: 18px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+}
+
+.message-group {
+    display: flex;
+    width: 100%;
+}
+
+.message-group.left-align {
+    justify-content: flex-start;
+}
+
+.message-group.right-align {
+    justify-content: flex-end;
+}
+
+.avatar-col {
+    width: 40px;
+    margin-right: 8px;
+    flex-shrink: 0;
+}
+
+.message-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.content-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 265px;
+}
+
+.message-group.right-align .content-col {
+    align-items: flex-end;
+}
+
+.sender-name {
+    font-size: 11.7px;
+    color: #000;
+    margin-bottom: 4px;
+}
+
+.bubble {
+    padding: 10px 14px;
+    border-radius: 18px;
+    font-size: 14.5px;
+    line-height: 1.45;
+    word-break: break-word;
+    white-space: pre-wrap;
+    transition: transform 0.15s ease, opacity 0.15s ease, outline 0.15s ease, background-color 0.15s ease;
+}
+
+.bubble-white {
+    background-color: #FFF;
+    color: #000000;
+}
+
+.message-group.left-align .bubble-white {
+    border-top-left-radius: 4px;
+}
+
+.message-group.right-align .bubble-white {
+    border-top-right-radius: 4px;
+}
+
+.bubble-gray {
+    background-color: #FFF;
+    color: #000;
+}
+
+.message-group.right-align .bubble-gray {
+    border-top-right-radius: 4px;
+}
+
+.message-group.left-align .bubble-gray {
+    border-top-left-radius: 4px;
+}
+
+/* Interactive Fan Message Bubble (Artist Mode) */
+body.mode-artist .selectable-target {
+    cursor: pointer;
+}
+
+body.mode-artist .selectable-target:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+}
+
+body.mode-artist .selectable-target:active {
+    transform: translateY(0);
+    opacity: 0.8;
+}
+
+.bubble-selected-target {
+    outline: 1px solid #000000;
+}
+
+/* Special Reply Message Component */
+/* Special Reply Message Component */
+.reply-group-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 6px;
+    align-items: flex-start; /* 왼쪽 정렬 메시지일 때 컨텐츠 길이만큼 너비 맞춤 */
+}
+
+.message-group.right-align .reply-group-container {
+    align-items: flex-end; /* 오른쪽 정렬 메시지일 때 컨텐츠 길이만큼 너비 맞춤 */
+}
+
+.quoted-card {
+    width: fit-content; /* 100% 확장 방지: 인용 카드 텍스트 너비에 맞게 조절 */
+    max-width: 100%;
+    background-color: #FFF;
+    opacity: 70%;
+    backdrop-filter: blur(5px);
+    border-radius: 16px;
+    padding: 10px 14px;
+}
+
+.quoted-card-header {
+    font-size: 11px;
+    color: #000000;
+    margin-bottom: 4px;
+}
+
+.highlight-artist {
+    font-weight: 900;
+    color: #000000;
+}
+
+.quoted-card-body {
+    font-size: 13px;
+    color: #848484;
+    line-height: 1.4;
+    word-break: break-word;
+    white-space: pre-wrap;
+}
+
+.reply-actual-bubble {
+    width: fit-content; /* 100% 확장 방지: 실제 답장 말풍선 텍스트 너비에 맞게 조절 */
+    max-width: 100%;
+}
+
+/* Search Highlight */
+.search-highlight {
+    outline: 2.5px solid #FF9500 !important;
+    background-color: #FFF9C4 !important;
+    color: #000 !important;
+}
+
+/* Reply Preview Bar above input */
+.reply-preview-bar {
+    background: #fff;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.reply-preview-bar.hidden {
+    display: none;
+}
+
+.reply-preview-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow: hidden;
+}
+
+.reply-preview-title {
+    font-size: 12px;
+    color: #000000;
+    white-space: nowrap;
+}
+
+.reply-preview-text {
+    font-size: 12px;
+    color: #848484;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.icon-btn-sm {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+/* Search Controls Bar */
+.search-nav-bar {
+    position: absolute;
+    bottom: 70px;
+    right: 16px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    border-radius: 20px;
+    padding: 6px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 15;
+}
+
+.search-nav-bar.hidden {
+    display: none;
+}
+
+.search-count-label {
+    font-size: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+.search-nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.icon-btn-nav {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+}
+
+/* Footer Input */
+.chat-footer {
+    background-color: #FFFFFF;
+    padding: 8px 12px calc(8px + env(safe-area-inset-bottom)) 12px;
+    flex-shrink: 0;
+    z-index: 10;
+}
+
+.input-container {
+    display: flex;
+    align-items: flex-end;
+    background-color: #F2F2F7;
+    border-radius: 22px;
+    padding: 6px 8px 6px 14px;
+    gap: 8px;
+}
+
+#chat-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 15px;
+    line-height: 1.35;
+    max-height: 100px;
+    resize: none;
+    outline: none;
+    color: #000;
+    padding: 4px 0;
+}
+
+.input-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.icon-btn-input {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+}
+
+.btn-send {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #ffddee;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.no-search-results {
+    width: 100%;
+    text-align: center;
+    color: #FFF;
+    font-size: 14px;
+    margin-top: 40px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+/* MODALS */
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-overlay.hidden {
+    display: none;
+}
+
+.modal-card {
+    width: 100%;
+    max-width: 320px;
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.modal-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #000;
+}
+
+.input-group {
+    margin-bottom: 12px;
+}
+
+.input-group input {
+    width: 100%;
+    height: 44px;
+    background-color: #F2F2F7;
+    border: 1px solid #E5E5EA;
+    border-radius: 12px;
+    padding: 0 14px;
+    font-size: 15px;
+    outline: none;
+    color: #000;
+}
+
+.input-group input:focus {
+    border-color: #848484;
+}
+
+.login-error-msg {
+    font-size: 12px;
+    color: #FF3B30;
+    margin-bottom: 12px;
+}
+
+.login-error-msg.hidden {
+    display: none;
+}
+
+.btn-modal-submit {
+    width: 100%;
+    height: 44px;
+    background-color: #848484;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* iOS-STYLE CONFIRMATION MODAL */
+.confirm-modal-card {
+    max-width: 280px;
+    padding: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(16px);
+}
+
+.confirm-modal-body {
+    padding: 22px 18px;
+    text-align: center;
+}
+
+.confirm-modal-text {
+    font-size: 15px;
+    font-weight: 400;
+    color: #000000;
+    line-height: 1.35;
+}
+
+.confirm-modal-actions {
+    display: flex;
+    border-top: 0.5px solid #C6C6C8;
+    height: 44px;
+}
+
+.btn-confirm-action {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.btn-confirm-cancel {
+    color: #000;
+    font-weight: 400;
+    border-right: 0.5px solid #C6C6C8;
+}
+
+.btn-confirm-accept {
+    color: #000;
+    font-weight: 600;
+}
+
+/* --- 왼쪽 말풍선 (상대방) --- */
+.message-group.left-align .content-col {
+    max-width: 265px; /* 왼쪽 말풍선 최대 너비 (원하는 비율로 수정) */
+}
+.message-group.left-align .bubble-white {
+    background-color: #FFFFFF; /* 왼쪽 배경색 */
+    color: #000000; /* 왼쪽 글자색 */
+}
+
+/* --- 오른쪽 말풍선 (나) --- */
+.message-group.right-align .content-col {
+    max-width: 265px; /* 오른쪽 말풍선 최대 너비 (원하는 비율로 수정) */
+}
+.message-group.right-align .bubble-white {
+    background-color: #ffddee; /* 오른쪽 배경색 (예: 카카오톡 노란색) */
+    color: #000; /* 오른쪽 글자색 */
+}
+
+.message-group.right-align .bubble-white {
+    border-radius: 18px;            /* 전체 모서리를 동글동글하게 기본 설정 */
+    border-bottom-right-radius: 4px; /* 왼쪽 하단 모서리만 뾰족하게(4px) 설정 */
+}
+
+/* 채팅 말풍선 내부 이미지 크기 조절 */
+.chat-image {
+    max-width: 265px; /* 최대 너비 265px 제한 */
+    width: 100%;      /* 작은 이미지는 비율 유지 */
+    height: auto;     /* 원본 비율 유지 */
+    border-radius: 12px;
+    display: block;
+    margin-top: 4px;
+}
+
+/* 이미지 첨부 버튼 스타일 (기본 숨김) */
+.btn-attach-image {
+    display: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background-color: #ffddee;
+    color: #333;
+    font-size: 20px;
+    cursor: pointer;
+    margin-right: 8px;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 아티스트 모드일 때만 이미지 첨부 버튼 표시 */
+body.mode-artist .btn-attach-image {
+    display: flex;
+}
+
+/* 기본 상태(팬 모드/로그아웃 상태)에서는 이미지 버튼 숨김 */
+.mode-fan #btn-attach-image {
+    display: none !important;
+}
+
+/* 아티스트 모드(로그인 상태)에서만 이미지 버튼 표시 */
+.mode-artist #btn-attach-image {
+    display: inline-flex; /* 또는 display: flex; */
+}

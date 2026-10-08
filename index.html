@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>버블버블버블</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+
+        <!-- SCREEN 1: HOME / PROFILE -->
+        <div id="screen-home" class="screen active">
+            <div class="profile-backdrop-gradient"></div>
+
+            <div class="profile-content">
+                <div class="profile-avatar-wrapper">
+                    <img src="profile.png" alt="Profile" class="profile-avatar-img">
+                </div>
+
+                <div class="profile-info">
+                    <span class="artist-badge">ARTIST</span>
+                    <span class="profile-name">맘이</span>
+                </div>
+            </div>
+
+            <div class="home-bottom-bar">
+                <button id="btn-enter-chat" class="btn-chat-start">채팅하기</button>
+            </div>
+        </div>
+
+        <!-- SCREEN 2: CHAT CONTAINER -->
+        <div id="screen-chat" class="screen">
+            
+            <!-- Normal Chat Header -->
+            <header id="normal-header" class="app-header normal-header">
+                <div class="header-top">
+                    <button id="btn-back-home" class="icon-btn" aria-label="Back">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                    </button>
+                    <div class="header-title-container">
+                        <div class="header-name">맘이</div>
+                        <div class="header-sub">
+                            <span>𝒃𝒖𝒃𝒃𝒍𝒆</span>
+                            <img src="heart.png" alt="heart" class="heart-icon heartbeat">
+                            <span>+ 520</span>
+                        </div>
+                    </div>
+                    <div class="header-actions">
+                        <button id="btn-open-search" class="icon-btn" aria-label="Search">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        </button>
+                        <button id="btn-open-menu" class="icon-btn" aria-label="Menu">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Dropdown Menu -->
+                <div id="chat-menu-dropdown" class="menu-dropdown hidden">
+                    <button class="menu-item" id="menu-opt-auth">🔐</button>
+                </div>
+            </header>
+
+            <!-- Search Mode Header -->
+            <header id="search-header" class="app-header search-header">
+                <div class="header-top search-top">
+                    <button id="btn-close-search" class="icon-btn" aria-label="Close Search">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                    </button>
+                    <div class="search-input-wrapper">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8E8E93" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon-inside"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <input type="text" id="search-input" placeholder="채팅 검색" autocomplete="off">
+                    </div>
+                    <button id="btn-cancel-search" class="text-btn">취소</button>
+                </div>
+                <div class="search-sub-bar">
+                    <span>𝒃𝒖𝒃𝒃𝒍𝒆</span>
+                    <img src="heart.png" alt="heart" class="heart-icon heartbeat">
+                    <span></span>
+                </div>
+            </header>
+
+            <!-- Chat Messages Area -->
+            <main id="chat-messages" class="chat-messages-container"></main>
+
+            <!-- Active Reply Preview Bar -->
+            <div id="reply-preview-bar" class="reply-preview-bar hidden">
+                <div class="reply-preview-content">
+                    <span class="reply-preview-title"><strong class="highlight-artist">마음</strong>의 답장</span>
+                    <span id="reply-preview-text" class="reply-preview-text"></span>
+                </div>
+                <button id="btn-cancel-reply" class="icon-btn-sm" aria-label="Cancel Reply">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8E8E93" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+
+            <!-- Floating Search Controls -->
+            <div id="search-nav-bar" class="search-nav-bar hidden">
+                <span id="search-count-label" class="search-count-label">0 / 0</span>
+                <div class="search-nav-buttons">
+                    <button id="btn-search-prev" class="icon-btn-nav" aria-label="Previous Match">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+                    </button>
+                    <button id="btn-search-next" class="icon-btn-nav" aria-label="Next Match">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Input Footer -->
+            <footer id="chat-footer" class="chat-footer">
+                <div class="input-container">
+                    <!-- 보이지 않는 실제 이미지 선택 태그 -->
+                    <input type="file" id="image-input" accept="image/*" style="display: none;">
+
+                    <textarea id="chat-input" rows="1" placeholder=""></textarea>
+                    <div class="input-actions">
+                        <!-- 기존 icon-btn-input 스타일을 그대로 사용하는 이미지 첨부 버튼 -->
+                        <button id="btn-attach-image" class="icon-btn-input" aria-label="Attach Image">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8E8E93" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                        </button>
+                        <button id="btn-send" class="btn-send" aria-label="Send">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+        <!-- LOGIN MODAL -->
+        <div id="login-modal" class="modal-overlay hidden">
+            <div class="modal-card">
+                <div class="modal-header">
+                    <h3 class="modal-title">비밀번호를 입력하세요.</h3>
+                    <button id="btn-close-modal" class="icon-btn-sm" aria-label="Close Modal">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8E8E93" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                </div>
+                <form id="login-form" onsubmit="return false;">
+                    <div class="input-group">
+                        <input type="password" id="login-password" placeholder="비밀번호" autocomplete="current-password">
+                    </div>
+                    <div id="login-error" class="login-error-msg hidden">비밀번호가 올바르지 않습니다.</div>
+                    <button type="submit" id="btn-submit-login" class="btn-modal-submit">로그인</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- CUSTOM iOS-STYLE REPLY MODAL -->
+        <div id="confirm-reply-modal" class="modal-overlay hidden">
+            <div class="modal-card confirm-modal-card">
+                <div class="confirm-modal-body">
+                    <p class="confirm-modal-text">이 메시지에 답장을 보낼까요? 😆</p>
+                </div>
+                <div class="confirm-modal-actions">
+                    <button id="btn-confirm-cancel" class="btn-confirm-action btn-confirm-cancel">취소</button>
+                    <button id="btn-confirm-accept" class="btn-confirm-action btn-confirm-accept">답장하기</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
